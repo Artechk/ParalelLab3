@@ -1,0 +1,11 @@
+Error converting from UTF8 to ISO-8859-1
+  C:\GNAT\2021\bin\src\main.adb
+    74:1 Invalid byte sequence in conversion input
+    75:1 Invalid byte sequence in conversion input
+    79:1 Invalid byte sequence in conversion input
+    80:1 Invalid byte sequence in conversion input
+Builder results
+  C:\GNAT\2021\bin\src\main.adb
+    7:11 warning: file name does not match unit name, should be "consumer_producer.adb" [enabled by default]
+    79:69 error: positional aggregate cannot have one component
+    80:69 error: positional aggregate cannot have one component
