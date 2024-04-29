@@ -12,7 +12,7 @@ class Manager {
 
     public Manager(int storageSize) {
         access = new Semaphore(1);
-        full = new Semaphore(0); // Заполняем пустое хранилище семафором full
-        empty = new Semaphore(storageSize); // Начинаем с полным хранилищем
+        full = new Semaphore(0); // Заповнюємо порожнє сховище семафором full
+        empty = new Semaphore(storageSize); // Починаємо з повним сховищем
     }
 }

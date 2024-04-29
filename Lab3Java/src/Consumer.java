@@ -1,5 +1,5 @@
 class Consumer implements Runnable {
-    private final int totalItems; // Общее количество элементов, которые нужно забрать
+    private final int totalItems; // Загальна кількість елементів, які потрібно забрати
     private final Manager manager;
 
     public Consumer(int totalItems, Manager manager) {
@@ -10,24 +10,24 @@ class Consumer implements Runnable {
 
     @Override
     public void run() {
-        while (manager.storage.size() < totalItems) { // Проверяем, не забрали ли уже все элементы
+        while (manager.storage.size() < totalItems) { // Перевіряємо, чи не забрали вже всі елементи
             try {
-                manager.full.acquire(); // Ожидаем пока в хранилище есть элементы
-                manager.access.acquire(); // Захватываем доступ к хранилищу
+                manager.full.acquire(); // Чекаємо, доки в сховищі є елементи
+                manager.access.acquire(); // Захоплюємо доступ до сховища
 
-                // Проверяем, не забрали ли уже все элементы
+                // Перевіряємо, чи не забрали вже всі елементи
                 if (manager.storage.size() < totalItems) {
-                    // Забираем элемент из хранилища
-                    if (!manager.storage.isEmpty()) { // Проверяем, есть ли элементы в хранилище
+                    // Забираємо елемент із сховища
+                    if (!manager.storage.isEmpty()) { // Перевіряємо, чи є елементи в сховищі
                         String item = manager.storage.remove(0);
-                        System.out.println("Took " + item + " by " + Thread.currentThread().getName());
-                        System.out.println("Items number now is:" + manager.storage.size());
+                        System.out.println("Взято " + item + " від " + Thread.currentThread().getName());
+                        System.out.println("Кількість елементів зараз: " + manager.storage.size());
                         System.out.println("-------------------------");
                     }
                 }
 
-                manager.access.release(); // Освобождаем доступ к хранилищу
-                manager.empty.release(); // Освобождаем семафор, теперь в хранилище есть место
+                manager.access.release(); // Звільняємо доступ до сховища
+                manager.empty.release(); // Звільняємо семафор, тепер в сховищі є місце
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }

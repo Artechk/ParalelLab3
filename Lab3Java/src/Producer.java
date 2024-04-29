@@ -1,9 +1,9 @@
 import java.util.concurrent.atomic.AtomicInteger;
 
 class Producer implements Runnable {
-    private final int totalItems; // Общее количество элементов, которые нужно создать
+    private final int totalItems; // Загальна кількість елементів, які потрібно створити
     private final Manager manager;
-    private static AtomicInteger itemCounter = new AtomicInteger(0); // Общий счетчик для всех производителей
+    private static AtomicInteger itemCounter = new AtomicInteger(0); // Загальний лічильник для всіх виробників
 
     public Producer(int totalItems, Manager manager) {
         this.totalItems = totalItems;
@@ -13,23 +13,23 @@ class Producer implements Runnable {
 
     @Override
     public void run() {
-        while (itemCounter.get() < totalItems) { // Проверяем, не достигли ли общего количества элементов
+        while (itemCounter.get() < totalItems) { // Перевіряємо, чи не досягли ми загальної кількості елементів
             try {
-                manager.empty.acquire(); // Ожидаем пока есть место в хранилище
-                manager.access.acquire(); // Захватываем доступ к хранилищу
+                manager.empty.acquire(); // Чекаємо, доки є місце в сховищі
+                manager.access.acquire(); // Захоплюємо доступ до сховища
 
-                // Проверяем, не достигли ли общего количества элементов
+                // Перевіряємо, чи не досягли ми загальної кількості елементів
                 if (itemCounter.get() < totalItems) {
-                    // Создаем элемент на основе общего счетчика
-                    String item = "item " + itemCounter.getAndIncrement();
+                    // Створюємо елемент на основі загального лічильника
+                    String item = "елемент " + itemCounter.getAndIncrement();
                     manager.storage.add(item);
-                    System.out.println("Added " + item + " by " + Thread.currentThread().getName());
-                    System.out.println("Items number now is:" + manager.storage.size());
+                    System.out.println("Додано " + item + " від " + Thread.currentThread().getName());
+                    System.out.println("Кількість елементів зараз: " + manager.storage.size());
                     System.out.println("-------------------------");
                 }
 
-                manager.access.release(); // Освобождаем доступ к хранилищу
-                manager.full.release(); // Освобождаем семафор, теперь хранилище не пустое
+                manager.access.release(); // Звільняємо доступ до сховища
+                manager.full.release(); // Звільняємо семафор, тепер сховище не пусте
             } catch (InterruptedException e) {
                 e.printStackTrace();
             }
